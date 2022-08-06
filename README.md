@@ -1,1 +1,1 @@
-# Making Paint Using Canvas api and js
+# Making Project Using Canvas api and js
