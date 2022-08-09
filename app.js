@@ -1,28 +1,30 @@
 const canvas = document.querySelector("canvas");
-// ctx = context >> 붓 역할
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 800;
-ctx.lineWidth = 3;
+ctx.lineWidth = 1.5;
 
-const colors = [
-    "#1289A7",
-    "#FFC312",
-    "#C4E538",
-    "#F79F1F",
-    "#EE5A24",
-    "#EA2027",
-    "#FDA7DF",
-    "#12CBC4",
-];
+let isPainting = false;
 
-function onClick(event) {
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    ctx.strokeStyle = color;
-    ctx.lineTo(event.offsetX, event.offsetY);
-    ctx.stroke();
+function onMove(location) {
+    if(isPainting) {
+        ctx.lineTo(location.offsetX, location.offsetY);
+        ctx.stroke();
+        return;
+    }
+    console.log(location.offsetX, location.offsetY);
+    ctx.moveTo(location.offsetX, location.offsetY);
 }
 
-canvas.addEventListener("mousemove", onClick);
+function startPaint() {
+    isPainting = true ;
+}
+
+function cancelPaint() {
+    isPainting = false;
+}
+
+canvas.addEventListener("mousemove", onMove);
+canvas.addEventListener("mousedown", startPaint);
+canvas.addEventListener("mouseup", cancelPaint);
+canvas.addEventListener("mouseleave", cancelPaint);
